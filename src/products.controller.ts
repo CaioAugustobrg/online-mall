@@ -43,4 +43,17 @@ export class ProductsController {
       viewData: viewData,
     };
   }
+
+  @Get('/:id')
+  @Render('products/show')
+  show(@Param() params) {
+    const product = ProductsController.products[params.id - 1];
+    const viewData = [];
+    viewData['title'] = product.name + ' - Online Mall';
+    viewData['subtitle'] = product.name + ' - Product Information';
+    viewData['product'] = product;
+    return {
+      viewData: viewData,
+    };
+  }
 }
