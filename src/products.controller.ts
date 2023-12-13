@@ -32,4 +32,15 @@ export class ProductsController {
       price: '100',
     },
   ];
+  @Get('/')
+  @Render('products/index')
+  index() {
+    const viewData = [];
+    viewData['title'] = 'Products - Online Mall';
+    viewData['subtitle'] = 'List of products';
+    viewData['products'] = ProductsController.products;
+    return {
+      viewData: viewData,
+    };
+  }
 }
