@@ -19,12 +19,12 @@ export class ProductsController {
   @Get('/:id')
   async show(@Param() params, @Res() response) {
     const product = await this.productsService.findOne(params.id);
-    if (product === undefined) {
+    if (product == undefined) {
       return response.redirect('/products');
     }
     const viewData = [];
-    viewData['title'] = product.name + ' - Online Mall';
-    viewData['subtitle'] = product.name + ' - Product Information';
+    viewData['title'] = product.getName() + ' - Online Mall';
+    viewData['subtitle'] = product.getName() + ' - Product Information';
     viewData['product'] = product;
     return response.render('products/show', { viewData: viewData });
   }
