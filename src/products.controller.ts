@@ -10,7 +10,7 @@ export class ProductsController {
     const viewData = [];
     viewData['title'] = 'Products - Online Mall';
     viewData['subtitle'] = 'List of products';
-    viewData['producst'] = await this.productsService.findAll();
+    viewData['products'] = await this.productsService.findAll();
     return {
       viewData: viewData,
     };
