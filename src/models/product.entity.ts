@@ -32,6 +32,9 @@ export class Product {
   getDescription(): string {
     return this.description;
   }
+  setDescription(description: string) {
+    this.description = description;
+  }
   getImage() {
     return this.image;
   }
