@@ -9,11 +9,16 @@ export class ProductsService {
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
   ) {}
-  findAll(): Promise<Product[]> {
+  async findAll(): Promise<Product[]> {
     return this.productsRepository.find();
   }
-
-  findOne(id: number): Promise<Product> {
+  async findOne(id: number): Promise<Product> {
     return this.productsRepository.findOne({ where: { id } });
+  }
+  async createOrUpdate(product: Product): Promise<Product> {
+    return this.productsRepository.save(product);
+  }
+  async remove(id: number): Promise<void> {
+    await this.productsRepository.delete(id);
   }
 }
