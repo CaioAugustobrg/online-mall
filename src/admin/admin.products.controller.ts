@@ -5,21 +5,22 @@ import {
   Post,
   Body,
   Redirect,
-  Req,
   UseInterceptors,
   UploadedFile,
   Param,
+  Req,
   Res,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ProductsService } from '../models/products.service';
+import { Product } from '../models/product.entity';
 import { ProductValidator } from 'src/validator/product.validator';
 import * as fs from 'fs';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ProductsService } from 'src/models/products.service';
-import { Product } from 'src/models/product.entity';
 
-@Controller('admin/products')
+@Controller('/admin/products')
 export class AdminProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
   @Get('/')
   @Render('admin/products/index')
   async index() {
@@ -30,6 +31,7 @@ export class AdminProductsController {
       viewData: viewData,
     };
   }
+
   @Post('/store')
   @UseInterceptors(FileInterceptor('image', { dest: './public/uploads' }))
   @Redirect('/admin/products')
@@ -61,7 +63,7 @@ export class AdminProductsController {
   }
 
   @Post('/:id')
-  @Redirect('admin/products')
+  @Redirect('/admin/products')
   remove(@Param('id') id: number) {
     return this.productsService.remove(id);
   }
@@ -70,12 +72,13 @@ export class AdminProductsController {
   @Render('admin/products/edit')
   async edit(@Param('id') id: number) {
     const viewData = [];
-    viewData['title'] = 'Admin Page - Edit Product - Online Store';
+    viewData['title'] = 'Admin Page - Edit Product - Online Mall';
     viewData['product'] = await this.productsService.findOne(id);
     return {
       viewData: viewData,
     };
   }
+
   @Post('/:id/update')
   @UseInterceptors(FileInterceptor('image', { dest: './public/uploads' }))
   async update(
@@ -96,8 +99,8 @@ export class AdminProductsController {
       if (file) {
         fs.unlinkSync(file.path);
       }
-      request.sessions.flashErrors = errors;
-      return response.redirect(`/admin/producst/${id}`);
+      request.session.flashErrors = errors;
+      return response.redirect('/admin/products/' + id);
     } else {
       const product = await this.productsService.findOne(id);
       product.setName(body.name);
@@ -107,7 +110,7 @@ export class AdminProductsController {
         product.setImage(file.filename);
       }
       await this.productsService.createOrUpdate(product);
-      return response.redirect('admin/producst');
+      return response.redirect('/admin/products/');
     }
   }
 }
