@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Param,
+  Res,
 } from '@nestjs/common';
 import { ProductValidator } from 'src/validator/product.validator';
 import * as fs from 'fs';
@@ -77,19 +78,36 @@ export class AdminProductsController {
   }
   @Post('/:id/update')
   @UseInterceptors(FileInterceptor('image', { dest: './public/uploads' }))
-  @Redirect('/products')
   async update(
     @Body() body,
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: number,
+    @Req() request,
+    @Res() response,
   ) {
-    const product = await this.productsService.findOne(id);
-    product.setName(body.name);
-    product.setDescription(body.description);
-    product.setPrice(body.price);
-    if (file) {
-      product.setImage(file.filename);
+    const toValidate: string[] = [
+      'name',
+      'description',
+      'price',
+      'imageUpdate',
+    ];
+    const errors: string[] = ProductValidator.validate(body, file, toValidate);
+    if (errors.length > 0) {
+      if (file) {
+        fs.unlinkSync(file.path);
+      }
+      request.sessions.flashErrors = errors;
+      return response.redirect(`/admin/producst/${id}`);
+    } else {
+      const product = await this.productsService.findOne(id);
+      product.setName(body.name);
+      product.setDescription(body.description);
+      product.setPrice(body.price);
+      if (file) {
+        product.setImage(file.filename);
+      }
+      await this.productsService.createOrUpdate(product);
+      return response.redirect('admin/producst');
     }
-    await this.productsService.createOrUpdate(product);
   }
 }
