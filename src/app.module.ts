@@ -9,6 +9,7 @@ import { User } from './models/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersService } from './models/user.service';
 import { CartModule } from './cart/cart.module';
+import { OrdersService } from './models/orders.service';
 @Global()
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { CartModule } from './cart/cart.module';
     CartModule,
   ],
   controllers: [AppController, ProductsController],
-  providers: [ProductsService, UsersService],
-  exports: [ProductsService, UsersService],
+  providers: [ProductsService, UsersService, OrdersService],
+  exports: [ProductsService, UsersService, OrdersService],
 })
 export class AppModule {}
