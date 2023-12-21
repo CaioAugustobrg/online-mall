@@ -21,6 +21,13 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
+  app.use('/admin*', function (req, res, next) {
+    if (req.session.user && req.session.user.role === 'admin') {
+      next();
+    } else {
+      res.redirect('/');
+    }
+  });
   app.use(function (req, res, next) {
     res.locals.session = req.session;
     const flashErrors: string[] = req.session.flashErrors;
