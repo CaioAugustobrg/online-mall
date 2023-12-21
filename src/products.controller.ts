@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Render, Res } from '@nestjs/common';
+import { Controller, Get, Render, Param, Res } from '@nestjs/common';
 import { ProductsService } from './models/products.service';
 
 @Controller('/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
+
   @Get('/')
   @Render('products/index')
   async index() {
@@ -19,7 +20,7 @@ export class ProductsController {
   @Get('/:id')
   async show(@Param() params, @Res() response) {
     const product = await this.productsService.findOne(params.id);
-    if (product == undefined) {
+    if (product === undefined) {
       return response.redirect('/products');
     }
     const viewData = [];
