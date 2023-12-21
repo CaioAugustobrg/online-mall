@@ -11,6 +11,7 @@ import {
 import { User } from 'src/models/user.entity';
 import { UsersService } from 'src/models/user.service';
 import { UserValidator } from 'src/validator/user.validator';
+
 @Controller('/auth')
 export class AuthController {
   constructor(private readonly usersService: UsersService) {}
@@ -19,20 +20,20 @@ export class AuthController {
   @Render('auth/register')
   register() {
     const viewData = [];
-    viewData['title'] = 'User Register - Online Store';
+    viewData['title'] = 'User Register - Online Mall';
     viewData['subtitle'] = 'User Register';
     return {
       viewData: viewData,
     };
   }
+
   @Post('/store')
-  @Redirect('/')
   async store(@Body() body, @Res() response, @Req() request) {
     const toValidate: string[] = ['name', 'email', 'password'];
     const errors: string[] = UserValidator.validate(body, toValidate);
     if (errors.length > 0) {
       request.session.flashErrors = errors;
-      return response.redirect('/auth/controller');
+      return response.redirect('/auth/register');
     } else {
       const newUser = new User();
       newUser.setName(body.name);
@@ -41,7 +42,7 @@ export class AuthController {
       newUser.setRole('client');
       newUser.setBalance(1000);
       await this.usersService.createOrUpdate(newUser);
-      return response.redirect('auth/login');
+      return response.redirect('/auth/login');
     }
   }
 
@@ -49,12 +50,13 @@ export class AuthController {
   @Render('auth/login')
   login() {
     const viewData = [];
-    viewData['title'] = 'User Login - Online Store';
+    viewData['title'] = 'User Login - Online Mall';
     viewData['subtitle'] = 'User Login';
     return {
       viewData: viewData,
     };
   }
+
   @Post('/connect')
   async connect(@Body() body, @Req() request, @Res() response) {
     const email = body.email;
@@ -68,7 +70,7 @@ export class AuthController {
       };
       return response.redirect('/');
     } else {
-      return response.redirect('auth/login');
+      return response.redirect('/auth/login');
     }
   }
 
