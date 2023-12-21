@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Order } from './order.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -19,6 +19,9 @@ export class User {
 
   @Column()
   balance: number;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 
   getId(): number {
     return this.id;
@@ -55,5 +58,11 @@ export class User {
   }
   setBalance(balance: number) {
     this.balance = balance;
+  }
+  getOrders(): Order[] {
+    return this.orders;
+  }
+  setOrders(orders: Order[]) {
+    this.orders = orders;
   }
 }
