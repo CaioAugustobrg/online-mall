@@ -1,0 +1,22 @@
+{{#> app}}
+  {{#*inline "content"}}
+    <div class="card">
+      <div class="card-header">
+        {{#if flashError}}
+          <p class="alert alert-danger">{{flashError}}</p>
+        {{else}}
+          Purchase Completed
+        {{/if}}
+      </div>
+      <div class="card-body">
+        {{#if flashError}}
+          <p class="alert alert-danger">{{flashError}}</p>
+        {{else}}
+          <div class="alert alert-success" role="alert">
+            Congratulations, purchase completed. Order number is <b>#{{viewData.orderId}}</b>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  {{/inline}}
+{{/app}}
