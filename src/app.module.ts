@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersService } from './models/user.service';
 import { CartModule } from './cart/cart.module';
 import { OrdersService } from './models/orders.service';
+import { Order } from './models/order.entity';
 @Global()
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { OrdersService } from './models/orders.service';
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Product, User]),
+    TypeOrmModule.forFeature([Product, User, Order]),
     AdminModule,
     AuthModule,
     CartModule,
