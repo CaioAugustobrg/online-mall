@@ -27,7 +27,7 @@ export class UsersService {
     }
     return null;
   }
-  findOnde(id: number): Promise<User> {
+  findOne(id: number): Promise<User> {
     return this.usersRepository.findOne({ where: { id: id } });
   }
   updateBalance(id: number, balance: number) {
