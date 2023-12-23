@@ -71,7 +71,7 @@ export class CartController {
     } else if (!request.session.products) {
       return response.redirect('/cart');
     } else {
-      const user = await this.usersService.findOnde(request.session.user.id);
+      const user = await this.usersService.findOne(request.session.user.id);
       const productsInSession = request.session.products;
       const productsInCart = await this.productsService.findByIds(
         Object.keys(productsInSession),
