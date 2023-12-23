@@ -11,6 +11,8 @@ import { UsersService } from './models/user.service';
 import { CartModule } from './cart/cart.module';
 import { OrdersService } from './models/orders.service';
 import { Order } from './models/order.entity';
+import { AccountModule } from './account/account.module';
+import { AccountController } from './account/account.controller';
 @Global()
 @Module({
   imports: [
@@ -28,8 +30,9 @@ import { Order } from './models/order.entity';
     AdminModule,
     AuthModule,
     CartModule,
+    AccountModule,
   ],
-  controllers: [AppController, ProductsController],
+  controllers: [AppController, ProductsController, AccountController],
   providers: [ProductsService, UsersService, OrdersService],
   exports: [ProductsService, UsersService, OrdersService],
 })
