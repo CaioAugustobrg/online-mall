@@ -21,13 +21,6 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
-  app.use('/admin*', function (req, res, next) {
-    if (req.session.user && req.session.user.role === 'admin') {
-      next();
-    } else {
-      res.redirect('/');
-    }
-  });
   app.use(function (req, res, next) {
     res.locals.session = req.session;
     const flashErrors: string[] = req.session.flashErrors;
@@ -36,6 +29,13 @@ async function bootstrap() {
       req.session.flashErrors = null;
     }
     next();
+  });
+  app.use('/admin*', function (req, res, next) {
+    if (req.session.user && req.session.user.role == 'admin') {
+      next();
+    } else {
+      res.redirect('/');
+    }
   });
 
   await app.listen(3000);
