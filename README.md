@@ -6,7 +6,7 @@
 $ git clone https://github.com/CaioAugustobrg/online-mall.git
 $ cd online-mall
 ```
-### Instale as depedências do projeto
+### Instale as dependências do projeto
 
 ```bash
 $ npm i 
