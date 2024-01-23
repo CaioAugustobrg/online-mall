@@ -16,7 +16,7 @@ $ npm i
 
  - É necessário instalar o XAMP. Se você não possuir o XAMP instalado, vá para https://www.apachefriends.org/download.html e instale.
 
-## Rodando a aplicação
+### Rodando a aplicação
 
  - Execute o XAMP, a clique em 'MySQL Admin'. 
 
